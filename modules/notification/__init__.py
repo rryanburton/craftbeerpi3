@@ -1,6 +1,8 @@
 import json
 from flask_classy import FlaskView, route
 from modules import cbpi
+
+
 class NotificationView(FlaskView):
 
     @route('/', methods=['GET'])
@@ -24,6 +26,7 @@ class NotificationView(FlaskView):
                 cbpi.cache["messages"].pop(idx)
         return ('', 204)
 
+
 @cbpi.event("MESSAGE", async=True)
 def messageEvent(message, **kwargs):
     """
@@ -36,6 +39,7 @@ def messageEvent(message, **kwargs):
         cbpi.cache["messages"].append(message)
     cbpi.emit("NOTIFY", message)
 
+
 @cbpi.initalizer(order=2)
 def init(cbpi):
     """
@@ -43,8 +47,8 @@ def init(cbpi):
     :param app: the flask app
     :return: None
     """
-    if cbpi.get_config_parameter("donation_notification", "YES") == "YES":
-        msg = {"id": len(cbpi.cache["messages"]), "type": "info", "headline": "Support CraftBeerPi with your donation", "message": "You will find the PayPay Donation button in the system menu" , "read": False}
-        cbpi.cache["messages"].append(msg)
+    # if cbpi.get_config_parameter("donation_notification", "YES") == "YES":
+    #     msg = {"id": len(cbpi.cache["messages"]), "type": "info", "headline": "Support CraftBeerPi with your donation", "message": "You will find the PayPay Donation button in the system menu" , "read": False}
+    #     cbpi.cache["messages"].append(msg)
 
     NotificationView.register(cbpi.app, route_base='/api/notification')
