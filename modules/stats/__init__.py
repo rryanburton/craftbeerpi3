@@ -30,7 +30,7 @@ def sendStats(cbpi):
         }
 
         import requests
-        r = requests.post('http://statistics.craftbeerpi.com', json=info)
+        r = requests.post(' ', json=info)
 
     except Exception as e:
         pass
